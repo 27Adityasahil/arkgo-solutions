@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -9,6 +9,9 @@ import Image from "next/image";
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [expandedMobileMenu, setExpandedMobileMenu] = useState(null);
+  const hoverTimeoutRef = useRef(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -28,7 +31,10 @@ export default function Header() {
     }
     
     const handleEsc = (e) => {
-      if (e.key === "Escape") setIsMobileMenuOpen(false);
+      if (e.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        setActiveDropdown(null);
+      }
     };
     window.addEventListener("keydown", handleEsc);
     
@@ -38,11 +44,50 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
+  const handleMouseEnter = (name) => {
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    setActiveDropdown(name);
+  };
+  
+  const handleMouseLeave = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 200);
+  };
+
+  const toggleMobileSubmenu = (e, name) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setExpandedMobileMenu(expandedMobileMenu === name ? null : name);
+  };
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    { name: "Services", href: "/services" },
-    { name: "Products", href: "/products" },
+    { 
+      name: "Services", 
+      href: "/services",
+      submenu: [
+        { name: "Solar Consultation", desc: "Understand your solar requirement.", href: "/services#consultation" },
+        { name: "Site Survey", desc: "Assess the site and project conditions.", href: "/services#survey" },
+        { name: "System Design", desc: "Design the solar system around your requirements.", href: "/services#design" },
+        { name: "Installation", desc: "Solar panel, inverter and related installation.", href: "/services#installation" },
+        { name: "Battery Solutions", desc: "Energy storage solutions where required.", href: "/services#battery" },
+        { name: "Maintenance & Service", desc: "Post-installation maintenance, repair and support.", href: "/services#maintenance" }
+      ]
+    },
+    { 
+      name: "Products", 
+      href: "/products",
+      submenu: [
+        { name: "Solar Panels", desc: "Photovoltaic modules for solar systems.", href: "/products#panels" },
+        { name: "Solar Inverters", desc: "Inverters for different system configurations.", href: "/products#inverters" },
+        { name: "Battery Systems", desc: "Energy storage solutions.", href: "/products#batteries" },
+        { name: "Solar Structures", desc: "Mounting and structural solutions.", href: "/products#structures" },
+        { name: "Solar Cables", desc: "Solar electrical cabling.", href: "/products#cables" },
+        { name: "Accessories", desc: "Supporting solar installation components.", href: "/products#accessories" }
+      ]
+    },
     { name: "Projects", href: "/projects" },
     { name: "Gallery", href: "/gallery" },
     { name: "FAQ", href: "/faq" },
@@ -57,8 +102,8 @@ export default function Header() {
         isScrolled ? "lg:py-3 lg:shadow-md shadow-[0_2px_12px_rgba(7,59,115,0.08)]" : "lg:py-5 shadow-[0_2px_12px_rgba(7,59,115,0.08)] lg:shadow-none"
       )}
     >
-      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-[1400px] w-full">
-        <div className="flex items-center justify-between">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-[1400px] w-full h-full lg:h-auto">
+        <div className="flex items-center justify-between h-full relative">
           <Link href="/" className="flex items-center justify-center relative z-50" onClick={() => setIsMobileMenuOpen(false)}>
             <Image 
               src="/logo.png" 
@@ -71,19 +116,76 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={clsx(
-                  "text-sm font-heading font-medium transition-colors",
-                  pathname === link.href ? "text-secondary font-bold" : "text-text-dark hover:text-secondary"
-                )}
-              >
-                {link.name}
-              </Link>
-            ))}
+          <nav className="hidden lg:flex items-center space-x-8 h-full" onMouseLeave={handleMouseLeave}>
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+              const isDropdownOpen = activeDropdown === link.name;
+              const hasSubmenu = !!link.submenu;
+
+              return (
+                <div 
+                  key={link.name} 
+                  className="relative flex items-center h-full"
+                  onMouseEnter={() => hasSubmenu ? handleMouseEnter(link.name) : handleMouseEnter(null)}
+                >
+                  <Link
+                    href={link.href}
+                    className={clsx(
+                      "flex items-center text-sm font-heading transition-colors py-2 group",
+                      isActive ? "text-secondary font-bold" : "text-text-dark hover:text-secondary font-medium"
+                    )}
+                    onFocus={() => hasSubmenu ? handleMouseEnter(link.name) : handleMouseEnter(null)}
+                  >
+                    {link.name}
+                    {hasSubmenu && (
+                      <svg className={clsx("w-3 h-3 ml-1.5 transition-transform duration-200", isDropdownOpen ? "rotate-180 text-secondary" : "text-[#8FA8BF] group-hover:text-secondary")} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    )}
+                  </Link>
+                  
+                  {/* Dropdown Panel */}
+                  {hasSubmenu && (
+                    <div 
+                      className={clsx(
+                        "absolute top-full left-1/2 -translate-x-1/2 w-[600px] mt-5 bg-white border border-[#E5E7EB] shadow-[0_12px_35px_rgba(7,59,115,0.10)] rounded-[4px] transition-all duration-300 ease-out origin-top",
+                        isDropdownOpen ? "opacity-100 visible scale-y-100 translate-y-0" : "opacity-0 invisible scale-y-95 -translate-y-2 pointer-events-none"
+                      )}
+                    >
+                      {/* Bridge to prevent mouseleave gap */}
+                      <div className="absolute -top-5 left-0 right-0 h-5 bg-transparent" />
+
+                      <div className="p-8">
+                         {/* Header */}
+                         <div className="flex items-baseline justify-between mb-6 pb-4 border-b border-[#E5E7EB]">
+                           <span className="text-xl font-heading font-extrabold text-primary uppercase tracking-wider">{link.name}</span>
+                           <span className="text-xs font-sans text-text-dark">{link.name === "Services" ? "Complete solar project support" : "Premium solar components"}</span>
+                         </div>
+                         
+                         {/* Grid */}
+                         <div className="grid grid-cols-2 gap-x-8 gap-y-6 mb-8">
+                           {link.submenu.map((sub, i) => (
+                             <Link key={sub.name} href={sub.href} className="group flex flex-col p-2 -m-2 rounded-[4px] hover:bg-[#F7F9FB] transition-colors" onClick={() => setActiveDropdown(null)}>
+                                <div className="flex items-baseline gap-3 mb-1">
+                                  <span className="text-xs font-heading font-bold text-[#8FA8BF] group-hover:text-secondary transition-colors">0{i+1}</span>
+                                  <span className="text-sm font-heading font-bold text-primary group-hover:text-secondary transition-colors">{sub.name}</span>
+                                </div>
+                                <span className="text-xs font-sans text-text-dark pl-[26px] group-hover:text-primary transition-colors">{sub.desc}</span>
+                             </Link>
+                           ))}
+                         </div>
+                         
+                         {/* CTA */}
+                         <Link href={link.href} className="flex items-center justify-between w-full p-4 bg-[#F7F9FB] text-xs font-heading font-bold text-primary hover:text-secondary hover:bg-primary/5 transition-colors uppercase tracking-widest border border-[#E5E7EB] rounded-sm group" onClick={() => setActiveDropdown(null)}>
+                           <span>VIEW ALL {link.name}</span>
+                           <span className="transition-transform group-hover:translate-x-1">→</span>
+                         </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </nav>
 
           {/* Desktop CTA */}
@@ -105,7 +207,6 @@ export default function Header() {
             aria-controls="mobile-menu"
           >
             <div className="relative w-6 h-6 flex items-center justify-center">
-              {/* Solar Panel Icon (Closed State) */}
               <div 
                 className={clsx(
                   "absolute inset-0 grid grid-cols-2 grid-rows-3 gap-[1px] p-[1px] border border-primary transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none",
@@ -122,11 +223,8 @@ export default function Header() {
                 <div className="bg-primary/90 group-hover:bg-primary transition-colors" />
                 <div className="bg-primary/90 group-hover:bg-primary transition-colors" />
                 <div className="bg-primary/90 group-hover:bg-primary transition-colors" />
-                {/* Red accent indicator */}
                 <div className="absolute -bottom-[3px] -right-[3px] w-1.5 h-1.5 bg-secondary rounded-full border border-white" />
               </div>
-
-              {/* Close X (Open State) */}
               <div 
                 className={clsx(
                   "absolute inset-0 flex items-center justify-center transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none",
@@ -148,16 +246,13 @@ export default function Header() {
         id="mobile-menu"
         className={clsx(
           "lg:hidden fixed left-0 right-0 bottom-0 bg-[#FAF7F0] z-40 transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-y-auto overscroll-contain",
-          "top-[72px]", // Directly below the header
+          "top-[72px]", 
           isMobileMenuOpen ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-4 invisible pointer-events-none"
         )}
       >
         <div className="flex flex-col min-h-full px-6 py-8 relative">
-          
-          {/* Subtle Energy Line Animation */}
           <div className="absolute top-0 left-0 h-[2px] bg-secondary transition-all duration-700 ease-out motion-reduce:transition-none" style={{ width: isMobileMenuOpen ? '100%' : '0%' }} />
 
-          {/* Minimal Solar Visual in Background */}
           <div 
             className={clsx(
               "absolute top-8 right-6 pointer-events-none transition-all duration-1000 motion-reduce:transition-none",
@@ -171,36 +266,84 @@ export default function Header() {
           </div>
 
           {/* Nav Links */}
-          <nav className="flex flex-col space-y-[18px] mb-12 relative z-10">
+          <nav className="flex flex-col space-y-[4px] mb-12 relative z-10">
             {navLinks.map((link, i) => {
               const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+              const hasSubmenu = !!link.submenu;
+              const isExpanded = expandedMobileMenu === link.name;
+              
               return (
                 <div 
                   key={link.name} 
                   className={clsx(
-                    "transition-all duration-400 ease-out motion-reduce:transition-none motion-reduce:opacity-100 motion-reduce:translate-y-0",
+                    "transition-all duration-400 ease-out motion-reduce:transition-none motion-reduce:opacity-100 motion-reduce:translate-y-0 flex flex-col",
                     isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                   )}
                   style={{ transitionDelay: `${isMobileMenuOpen ? 50 + (i * 45) : 0}ms` }}
                 >
-                  <Link
-                    href={link.href}
-                    className="group flex flex-col w-fit focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAF7F0] rounded-sm"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <div className="flex items-baseline gap-4">
-                      <span className={clsx("text-sm font-heading font-bold transition-colors", isActive ? "text-secondary" : "text-[#8FA8BF] group-hover:text-primary")}>
-                        0{i + 1}
-                      </span>
-                      <span className={clsx("text-[26px] font-heading font-extrabold uppercase tracking-wide transition-colors leading-none", isActive ? "text-primary" : "text-primary group-hover:text-secondary")}>
-                        {link.name}
-                      </span>
-                    </div>
-                    {/* Active indicator line */}
-                    {isActive && (
-                      <div className="w-full h-[2px] bg-secondary mt-1.5 ml-[34px] w-[calc(100%-34px)]" />
+                  <div className="flex items-center justify-between w-full py-[14px]">
+                    <Link
+                      href={link.href}
+                      className="group flex flex-col w-fit focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAF7F0] rounded-sm"
+                      onClick={() => !hasSubmenu && setIsMobileMenuOpen(false)}
+                    >
+                      <div className="flex items-baseline gap-4">
+                        <span className={clsx("text-sm font-heading font-bold transition-colors", isActive ? "text-secondary" : "text-[#8FA8BF] group-hover:text-primary")}>
+                          0{i + 1}
+                        </span>
+                        <span className={clsx("text-[26px] font-heading font-extrabold uppercase tracking-wide transition-colors leading-none", isActive ? "text-primary" : "text-primary group-hover:text-secondary")}>
+                          {link.name}
+                        </span>
+                      </div>
+                      {isActive && !hasSubmenu && (
+                        <div className="w-full h-[2px] bg-secondary mt-1.5 ml-[34px] w-[calc(100%-34px)]" />
+                      )}
+                    </Link>
+                    
+                    {hasSubmenu && (
+                      <button 
+                        className="p-2 text-primary w-10 h-10 flex items-center justify-center focus:outline-none"
+                        onClick={(e) => toggleMobileSubmenu(e, link.name)}
+                        aria-expanded={isExpanded}
+                        aria-label={`Toggle ${link.name} submenu`}
+                      >
+                        <span className="text-3xl leading-none font-light relative -top-[2px] transition-transform duration-300">{isExpanded ? '−' : '+'}</span>
+                      </button>
                     )}
-                  </Link>
+                  </div>
+                  
+                  {/* Mobile Submenu Accordion */}
+                  {hasSubmenu && (
+                    <div 
+                      className={clsx(
+                        "overflow-hidden transition-all duration-300 ease-in-out ml-[34px] border-l-2 border-primary/10 pl-4",
+                        isExpanded ? "max-h-[500px] opacity-100 mb-4 mt-2" : "max-h-0 opacity-0 mb-0 mt-0"
+                      )}
+                    >
+                      <div className="flex flex-col space-y-4 pt-1 pb-2">
+                        {link.submenu.map((sub, j) => (
+                          <Link 
+                            key={sub.name} 
+                            href={sub.href} 
+                            className="flex items-baseline gap-3 group"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            <span className="text-[10px] font-heading font-bold text-[#8FA8BF] group-hover:text-secondary transition-colors">0{j+1}</span>
+                            <span className="text-sm font-heading font-bold text-primary group-hover:text-secondary transition-colors">{sub.name}</span>
+                          </Link>
+                        ))}
+                        
+                        <Link 
+                          href={link.href} 
+                          className="inline-flex items-center text-[10px] font-heading font-bold text-secondary uppercase tracking-widest mt-2 hover:text-primary transition-colors group"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          <span>VIEW ALL {link.name}</span>
+                          <span className="transition-transform group-hover:translate-x-1 ml-1">→</span>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -235,7 +378,6 @@ export default function Header() {
               <span>→</span>
             </Link>
           </div>
-
         </div>
       </div>
     </header>

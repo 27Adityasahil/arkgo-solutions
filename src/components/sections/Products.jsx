@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { products } from "@/data/products";
 import ProductListItem from "@/components/cards/ProductListItem";
+import Image from "next/image";
 
 export default function Products() {
   const sectionRef = useRef(null);
@@ -118,17 +119,27 @@ export default function Products() {
             >
               <div 
                 ref={imageRef} 
-                className={`absolute inset-0 w-full h-full flex flex-col items-center justify-center p-8 text-center transition-colors duration-700 ${activeProduct.bgClass || "bg-tint-blue"}`}
+                className={`absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center transition-colors duration-700 ${activeProduct.bgClass || "bg-tint-blue"}`}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent mix-blend-multiply z-10" />
+                {activeProduct.image && (
+                  <Image
+                    src={activeProduct.image}
+                    alt={activeProduct.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    className="object-cover"
+                  />
+                )}
                 
-                {/* Image Placeholder text */}
-                <div className="z-20 flex flex-col items-center mt-auto pb-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent z-10" />
+                
+                {/* Image Overlay text */}
+                <div className="z-20 flex flex-col items-center mt-auto pb-8 text-center px-6">
                   <span className="block mb-2 font-heading font-bold text-white uppercase tracking-widest text-sm md:text-base">
-                    [ {activeProduct.title.toUpperCase()} ]
+                    {activeProduct.title.toUpperCase()}
                   </span>
-                  <span className="text-sm text-white/80 max-w-[250px] leading-relaxed">
-                    Corporate product photography placement
+                  <span className="text-sm text-white/90 max-w-[250px] leading-relaxed">
+                    Premium quality {activeProduct.title.toLowerCase()}
                   </span>
                 </div>
               </div>

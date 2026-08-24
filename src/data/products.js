@@ -6,6 +6,7 @@ export const products = [
     description: "The core component for converting sunlight into usable solar energy.",
     ctaText: "Get a Quote",
     bgClass: "bg-tint-blue",
+    image: "/images/ai/arkgo-solar-panels-sunset.webp",
   },
   {
     id: "inverters",
@@ -14,6 +15,7 @@ export const products = [
     description: "Power conversion solutions for solar energy systems.",
     ctaText: "Get a Quote",
     bgClass: "bg-tint-green",
+    image: "/images/ai/arkgo-industrial-solar-installation.webp",
   },
   {
     id: "batteries",
@@ -22,6 +24,7 @@ export const products = [
     description: "Energy storage solutions for greater flexibility and backup.",
     ctaText: "Get a Quote",
     bgClass: "bg-tint-warm",
+    image: "/images/ai/arkgo-corporate-solar-infrastructure.webp",
   },
   {
     id: "solar-structures",
@@ -30,6 +33,7 @@ export const products = [
     description: "Structural solutions for secure and reliable solar installations.",
     ctaText: "Get a Quote",
     bgClass: "bg-base",
+    image: "/images/ai/arkgo-solar-track-record-stats.webp",
   },
   {
     id: "cables",
@@ -38,6 +42,7 @@ export const products = [
     description: "Essential electrical components for solar system installation.",
     ctaText: "Get a Quote",
     bgClass: "bg-tint-blue",
+    image: "/images/ai/arkgo-solar-installation-commercial-wide.webp",
   },
   {
     id: "installation-materials",
@@ -46,6 +51,7 @@ export const products = [
     description: "Supporting materials required for professional solar system installation.",
     ctaText: "Get a Quote",
     bgClass: "bg-tint-green",
+    image: "/images/ai/arkgo-solar-system-design-blueprint.webp",
   },
   {
     id: "solar-accessories",
@@ -54,5 +60,6 @@ export const products = [
     description: "Additional components and accessories supporting complete solar solutions.",
     ctaText: "Get a Quote",
     bgClass: "bg-base",
+    image: "/images/ai/arkgo-solar-engineering-team.webp",
   }
 ];

@@ -15,11 +15,20 @@ const openSans = Open_Sans({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://arkgosolutions.com'),
   title: {
-    template: "%s | ARKGO SOLUTIONS",
-    default: "ARKGO SOLUTIONS - Go Solar with Arkgo",
+    template: "%s | ARKGO Solutions",
+    default: "ARKGO Solutions | Premium Solar Engineering & Installation in Bihar",
   },
-  description: "Forget About Electricity Bills — Go Solar with Arkgo. Reliable, sustainable, and cost-effective solar power solutions across Bihar.",
+  description: "ARKGO Solutions provides premium, reliable, and sustainable solar energy solutions across Bihar. Specializing in residential, commercial, and industrial solar installations.",
+  manifest: '/site.webmanifest',
+  openGraph: {
+    title: "ARKGO Solutions | Premium Solar Engineering",
+    description: "ARKGO Solutions provides premium, reliable, and sustainable solar energy solutions across Bihar.",
+    url: "https://arkgosolutions.com",
+    siteName: "ARKGO Solutions",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {

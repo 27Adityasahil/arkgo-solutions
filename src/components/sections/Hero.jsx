@@ -67,9 +67,6 @@ export default function Hero() {
 
   return (
     <section ref={sectionRef} className="relative w-full min-h-screen lg:min-h-[85vh] lg:h-auto flex flex-col lg:flex-row bg-white overflow-hidden">
-      
-      {/* Mobile Header Spacer */}
-      <div className="lg:hidden h-20 w-full shrink-0 bg-white" />
 
       <div 
         ref={imageContainerRef} 
@@ -118,7 +115,7 @@ export default function Hero() {
             </h1>
             
             {/* Supporting Copy */}
-            <p ref={el => elementsRef.current[2] = el} className="text-base md:text-lg text-tint-blue font-sans leading-relaxed mb-10 max-w-md">
+            <p ref={el => elementsRef.current[2] = el} className="text-base md:text-lg text-white/80 font-sans leading-relaxed mb-10 max-w-md">
               Reliable solar solutions for residential, commercial and industrial requirements across Bihar.
             </p>
             
