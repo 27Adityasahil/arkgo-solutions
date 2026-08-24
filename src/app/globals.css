@@ -1,26 +1,46 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* BRAND */
+  --color-primary: #073B73;
+  --color-secondary: #D94A32;
+  --color-accent: #F2B632;
+  --color-accent-orange: #F28C28;
+
+  /* BACKGROUNDS */
+  --color-bg-white: #FFFFFF;
+  --color-bg-ivory: #FAF7F0;
+  --color-bg-light-blue: #E8F1F8;
+
+  /* TEXT — LIGHT BACKGROUNDS */
+  --color-text-primary: #172B4D;
+  --color-text-secondary: #425466;
+  --color-text-muted: #667085;
+
+  /* TEXT — DARK BACKGROUNDS */
+  --color-text-on-dark: #F4F7FA;
+  --color-heading-on-dark: #FFFFFF;
+
+  --color-border-edge: #DCE4E8;
+  --color-white: #FFFFFF;
+
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: var(--color-base);
+  --foreground: var(--color-text-dark);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Apply Heading Font Globally */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+

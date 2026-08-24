@@ -1,0 +1,58 @@
+export const products = [
+  {
+    id: "solar-panels",
+    number: "01",
+    title: "Solar Panels",
+    description: "The core component for converting sunlight into usable solar energy.",
+    ctaText: "Get a Quote",
+    bgClass: "bg-tint-blue",
+  },
+  {
+    id: "inverters",
+    number: "02",
+    title: "Inverters",
+    description: "Power conversion solutions for solar energy systems.",
+    ctaText: "Get a Quote",
+    bgClass: "bg-tint-green",
+  },
+  {
+    id: "batteries",
+    number: "03",
+    title: "Batteries",
+    description: "Energy storage solutions for greater flexibility and backup.",
+    ctaText: "Get a Quote",
+    bgClass: "bg-tint-warm",
+  },
+  {
+    id: "solar-structures",
+    number: "04",
+    title: "Solar Structures",
+    description: "Structural solutions for secure and reliable solar installations.",
+    ctaText: "Get a Quote",
+    bgClass: "bg-base",
+  },
+  {
+    id: "cables",
+    number: "05",
+    title: "Cables",
+    description: "Essential electrical components for solar system installation.",
+    ctaText: "Get a Quote",
+    bgClass: "bg-tint-blue",
+  },
+  {
+    id: "installation-materials",
+    number: "06",
+    title: "Installation Materials",
+    description: "Supporting materials required for professional solar system installation.",
+    ctaText: "Get a Quote",
+    bgClass: "bg-tint-green",
+  },
+  {
+    id: "solar-accessories",
+    number: "07",
+    title: "Solar Accessories",
+    description: "Additional components and accessories supporting complete solar solutions.",
+    ctaText: "Get a Quote",
+    bgClass: "bg-base",
+  }
+];
