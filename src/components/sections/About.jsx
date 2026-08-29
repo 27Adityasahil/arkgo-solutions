@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function About() {
   const sectionRef = useRef(null);
@@ -65,7 +66,7 @@ export default function About() {
             headingRef.current,
             subheadingRef.current,
             paragraphRef.current,
-            factsRef.current?.children
+            factsRef.current
           ],
           {
             opacity: 1,
@@ -141,40 +142,21 @@ export default function About() {
             </div>
             
             {/* Body Copy */}
-            <div ref={paragraphRef} className="text-base md:text-lg text-text-muted font-sans leading-relaxed mb-16 lg:mb-24">
-              ARKGO Solutions provides solar energy solutions for residential, commercial and industrial requirements. From consultation and site survey to system design, installation, maintenance and service, our work is focused on practical solar solutions for projects across Bihar.
+            <div ref={paragraphRef} className="text-base md:text-lg text-text-muted font-sans leading-relaxed mb-10">
+              ARKGO Solutions is a dedicated solar business operating from Muzaffarpur, Bihar. We work across the entire solar value chain, providing product distribution, retail sales, complete system installation, and ongoing maintenance service for our customers.
             </div>
 
-            {/* Supporting Facts */}
-            <div ref={factsRef} className="grid grid-cols-2 gap-y-10 gap-x-8 lg:flex lg:flex-col lg:gap-y-8">
-              
-              <div className="flex flex-col border-l-2 border-primary/10 pl-5">
-                <span className="text-3xl lg:text-4xl font-heading font-bold text-primary mb-1">
-                  1+ MW
-                </span>
-                <span className="text-[10px] md:text-xs font-heading font-bold text-text-muted uppercase tracking-widest">
-                  SOLAR PROJECTS EXECUTED
-                </span>
-              </div>
-
-              <div className="flex flex-col border-l-2 border-primary/10 pl-5">
-                <span className="text-3xl lg:text-4xl font-heading font-bold text-primary mb-1">
-                  20+
-                </span>
-                <span className="text-[10px] md:text-xs font-heading font-bold text-text-muted uppercase tracking-widest">
-                  CLIENTS
-                </span>
-              </div>
-              
-              <div className="flex flex-col border-l-2 border-primary/10 pl-5">
-                <span className="text-3xl lg:text-4xl font-heading font-bold text-primary mb-1">
-                  30+
-                </span>
-                <span className="text-[10px] md:text-xs font-heading font-bold text-text-muted uppercase tracking-widest">
-                  PROJECTS
-                </span>
-              </div>
-
+            {/* CTA */}
+            <div ref={factsRef} className="flex pt-4">
+              <Link 
+                href="/about" 
+                className="inline-flex items-center justify-center bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-[4px] font-heading font-bold uppercase tracking-widest text-xs px-8 py-4 transition-colors group"
+              >
+                KNOW MORE ABOUT ARKGO
+                <svg className="w-4 h-4 ml-3 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </Link>
             </div>
 
           </div>

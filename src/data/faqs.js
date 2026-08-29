@@ -1,32 +1,32 @@
 export const faqs = [
   {
     id: "faq-01",
-    question: "What types of solar solutions does ARKGO Solutions provide?",
-    answer: "ARKGO Solutions provides residential, commercial and industrial solar solutions, including on-grid, off-grid and hybrid solar systems."
+    question: "What is rooftop solar?",
+    answer: "Rooftop solar involves installing solar panels on your roof to generate electricity directly from sunlight, reducing your reliance on the grid and lowering energy bills."
   },
   {
     id: "faq-02",
-    question: "Do you provide site surveys before designing a solar system?",
-    answer: "Yes. Site survey is part of ARKGO Solutions' project process and helps assess the site and installation requirements before system design."
+    question: "Is solar suitable for my home?",
+    answer: "Most homes with a clear, unshaded roof space are suitable for solar. Our team can conduct a site survey to determine the best system size and layout for your property."
   },
   {
     id: "faq-03",
-    question: "Can ARKGO Solutions help with solar system design?",
-    answer: "Yes. ARKGO Solutions provides solar system design based on the specific requirements of the project."
+    question: "Can ARKGO help with installation?",
+    answer: "Yes, ARKGO Solutions provides complete end-to-end solar installation services, ensuring your system is set up safely and efficiently."
   },
   {
     id: "faq-04",
-    question: "What products and components do you provide?",
-    answer: "ARKGO Solutions works with solar panels, inverters, batteries, solar structures, cables, installation materials and solar accessories."
+    question: "Do you provide solar products?",
+    answer: "Yes, we distribute and retail high-quality solar components including panels, inverters, batteries, and installation materials."
   },
   {
     id: "faq-05",
-    question: "Do you provide maintenance and repair services?",
-    answer: "Yes. Solar maintenance, repair and service are among the services provided by ARKGO Solutions."
+    question: "Can I enquire about PM Surya Ghar Yojana?",
+    answer: "Absolutely. We have experience supporting solar adoption under the PM Surya Ghar Yojana and can guide you through understanding your rooftop solar requirements."
   },
   {
     id: "faq-06",
-    question: "How can I get a quote for my solar requirement?",
-    answer: "You can contact ARKGO Solutions directly to discuss your requirement and request a quotation."
+    question: "Do you provide service after installation?",
+    answer: "Yes. Ongoing maintenance, repair, and service are a core part of our commitment to keeping your solar systems running optimally."
   }
 ];

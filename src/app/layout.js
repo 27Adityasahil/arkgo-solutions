@@ -3,6 +3,7 @@ import "./globals.css";
 import SmoothScroll from "@/animations/SmoothScroll";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
 
 const montserrat = Montserrat({
   variable: "--font-heading",
@@ -39,6 +40,7 @@ export default function RootLayout({ children }) {
           <Header />
           <main className="flex-grow">{children}</main>
           <Footer />
+          <FloatingWhatsApp />
         </SmoothScroll>
       </body>
     </html>

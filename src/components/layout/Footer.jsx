@@ -133,28 +133,25 @@ export default function Footer() {
               SOLUTIONS
             </h4>
             <ul className="flex flex-col space-y-4 text-sm">
-              <li><Link href="/solutions/residential" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Residential Solar</Link></li>
-              <li><Link href="/solutions/commercial" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Commercial Solar</Link></li>
-              <li><Link href="/solutions/industrial" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Industrial Solar</Link></li>
-              <li><Link href="/solutions/on-grid" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">On-Grid Solar</Link></li>
-              <li><Link href="/solutions/off-grid" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Off-Grid Solar</Link></li>
-              <li><Link href="/solutions/hybrid" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Hybrid Solar</Link></li>
+              <li><Link href="/solar-solutions#residential" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Residential Solar</Link></li>
+              <li><Link href="/solar-solutions#commercial" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Commercial Solar</Link></li>
+              <li><Link href="/solar-solutions#projects" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Solar Projects</Link></li>
+              <li><Link href="/solar-solutions#distribution" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Distribution & Retail</Link></li>
+              <li><Link href="/solar-solutions#installation" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Installation & Service</Link></li>
             </ul>
           </div>
 
-          {/* Products (2 cols) */}
+          {/* Quick Links (2 cols) */}
           <div className="lg:col-span-2">
             <h4 className="text-xs font-heading font-bold text-white uppercase tracking-widest mb-6 border-b border-white/10 pb-3 inline-block">
-              PRODUCTS
+              QUICK LINKS
             </h4>
             <ul className="flex flex-col space-y-4 text-sm">
-              <li><Link href="/products/panels" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Solar Panels</Link></li>
-              <li><Link href="/products/inverters" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Inverters</Link></li>
-              <li><Link href="/products/batteries" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Batteries</Link></li>
-              <li><Link href="/products/structures" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Solar Structures</Link></li>
-              <li><Link href="/products/cables" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Cables</Link></li>
-              <li><Link href="/products/materials" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Installation Materials</Link></li>
-              <li><Link href="/products/accessories" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Solar Accessories</Link></li>
+              <li><Link href="/gallery" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Gallery</Link></li>
+              <li><Link href="/reviews" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Customer Reviews</Link></li>
+              <li><Link href="/faq" className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">FAQ</Link></li>
+              <li><a href={process.env.NEXT_PUBLIC_CRM_URL ? `${process.env.NEXT_PUBLIC_CRM_URL}/login` : "#"} className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Partner Login</a></li>
+              <li><a href={process.env.NEXT_PUBLIC_CRM_URL ? `${process.env.NEXT_PUBLIC_CRM_URL}/login` : "#"} className="hover:text-secondary transition-colors focus:outline-none focus-visible:text-secondary">Customer Login</a></li>
             </ul>
           </div>
 

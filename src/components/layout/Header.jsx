@@ -65,33 +65,29 @@ export default function Header() {
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { 
-      name: "Services", 
-      href: "/services",
+      name: "Solar Solutions", 
+      href: "/solar-solutions",
       submenu: [
-        { name: "Solar Consultation", desc: "Understand your solar requirement.", href: "/services#consultation" },
-        { name: "Site Survey", desc: "Assess the site and project conditions.", href: "/services#survey" },
-        { name: "System Design", desc: "Design the solar system around your requirements.", href: "/services#design" },
-        { name: "Installation", desc: "Solar panel, inverter and related installation.", href: "/services#installation" },
-        { name: "Battery Solutions", desc: "Energy storage solutions where required.", href: "/services#battery" },
-        { name: "Maintenance & Service", desc: "Post-installation maintenance, repair and support.", href: "/services#maintenance" }
-      ]
-    },
-    { 
-      name: "Products", 
-      href: "/products",
-      submenu: [
-        { name: "Solar Panels", desc: "Photovoltaic modules for solar systems.", href: "/products#panels" },
-        { name: "Solar Inverters", desc: "Inverters for different system configurations.", href: "/products#inverters" },
-        { name: "Battery Systems", desc: "Energy storage solutions.", href: "/products#batteries" },
-        { name: "Solar Structures", desc: "Mounting and structural solutions.", href: "/products#structures" },
-        { name: "Solar Cables", desc: "Solar electrical cabling.", href: "/products#cables" },
-        { name: "Accessories", desc: "Supporting solar installation components.", href: "/products#accessories" }
+        { name: "Residential Solar", desc: "Solar for your home.", href: "/solar-solutions#residential" },
+        { name: "Commercial Solar", desc: "Solar for your business.", href: "/solar-solutions#commercial" },
+        { name: "Solar Projects", desc: "Large scale solar engineering.", href: "/solar-solutions#projects" },
+        { name: "Distribution & Retail", desc: "Solar components and materials.", href: "/solar-solutions#distribution" },
+        { name: "Installation & Service", desc: "Complete support and maintenance.", href: "/solar-solutions#installation" }
       ]
     },
     { name: "Projects", href: "/projects" },
     { name: "Gallery", href: "/gallery" },
-    { name: "FAQ", href: "/faq" },
+    { name: "Reviews", href: "/reviews" },
     { name: "Contact", href: "/contact" },
+    { 
+      name: "Login", 
+      href: process.env.NEXT_PUBLIC_CRM_URL ? `${process.env.NEXT_PUBLIC_CRM_URL}/login` : "#",
+      submenu: [
+        { name: "Partner Login", desc: "Admin and Partner Portal", href: process.env.NEXT_PUBLIC_CRM_URL ? `${process.env.NEXT_PUBLIC_CRM_URL}/login` : "#" },
+        { name: "Employee Login", desc: "Employee Portal", href: process.env.NEXT_PUBLIC_CRM_URL ? `${process.env.NEXT_PUBLIC_CRM_URL}/login` : "#" },
+        { name: "Customer Login", desc: "Customer Portal", href: process.env.NEXT_PUBLIC_CRM_URL ? `${process.env.NEXT_PUBLIC_CRM_URL}/login` : "#" }
+      ]
+    },
   ];
 
   return (
@@ -194,7 +190,7 @@ export default function Header() {
               href="/contact"
               className="px-6 py-2.5 bg-secondary text-white rounded-sm font-heading font-bold uppercase tracking-widest text-xs hover:bg-primary transition-colors"
             >
-              GET A QUOTE
+              GET A SOLAR QUOTE
             </Link>
           </div>
 

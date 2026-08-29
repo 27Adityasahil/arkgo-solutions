@@ -1,157 +1,59 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { products } from "@/data/products";
-import ProductListItem from "@/components/cards/ProductListItem";
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Zap, Battery, Sun, Wrench, Shield, Plug } from "lucide-react";
+
+const products = [
+  { name: "Solar Panels", icon: <Sun className="w-6 h-6 text-secondary" /> },
+  { name: "Inverters", icon: <Zap className="w-6 h-6 text-secondary" /> },
+  { name: "Batteries", icon: <Battery className="w-6 h-6 text-secondary" /> },
+  { name: "C-Channel", icon: <Wrench className="w-6 h-6 text-secondary" /> },
+  { name: "Purlins", icon: <Wrench className="w-6 h-6 text-secondary" /> },
+  { name: "Mid Clamps", icon: <Wrench className="w-6 h-6 text-secondary" /> },
+  { name: "Side Clamps", icon: <Wrench className="w-6 h-6 text-secondary" /> },
+  { name: "Earthing Components", icon: <Shield className="w-6 h-6 text-secondary" /> },
+  { name: "Lightning Arresters", icon: <Shield className="w-6 h-6 text-secondary" /> },
+  { name: "AC/DC Wires", icon: <Plug className="w-6 h-6 text-secondary" /> },
+  { name: "Installation Materials", icon: <Wrench className="w-6 h-6 text-secondary" /> },
+];
 
 export default function Products() {
-  const sectionRef = useRef(null);
-  const headerRef = useRef(null);
-  const imageContainerRef = useRef(null);
-  const imageRef = useRef(null);
-  const listRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      gsap.set(headerRef.current?.children, { y: 30, opacity: 0 });
-      gsap.set(listRef.current?.children, { y: 30, opacity: 0 });
-      gsap.set(imageContainerRef.current, { clipPath: "inset(100% 0% 0% 0%)", opacity: 0 });
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            end: "bottom 20%",
-            toggleActions: "play none none none"
-          },
-          defaults: { ease: "power3.out" }
-        });
-
-        tl.to(headerRef.current?.children, { y: 0, opacity: 1, duration: 0.8, stagger: 0.15 })
-          .to(imageContainerRef.current, { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, duration: 1.2, ease: "power2.inOut" }, "-=0.4")
-          .to(listRef.current?.children, { y: 0, opacity: 1, duration: 0.6, stagger: 0.1 }, "-=0.8");
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.to(
-          [
-            headerRef.current?.children,
-            imageContainerRef.current,
-            listRef.current?.children
-          ],
-          {
-            opacity: 1,
-            y: 0,
-            clipPath: "inset(0% 0% 0% 0%)",
-            duration: 0.6,
-            stagger: 0.05,
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 85%",
-            }
-          }
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  // Handle subtle image scale and crossfade on index change
-  useEffect(() => {
-    if (imageRef.current) {
-      gsap.fromTo(imageRef.current, 
-        { scale: 1.05, opacity: 0.6 }, 
-        { scale: 1, opacity: 1, duration: 0.8, ease: "power2.out" }
-      );
-    }
-  }, [activeIndex]);
-
-  const activeProduct = products[activeIndex];
-
   return (
-    <section ref={sectionRef} className="py-20 lg:py-32 bg-base border-t border-border-edge">
+    <section className="py-20 lg:py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-[1400px]">
-        
-        {/* Section Header */}
-        <div ref={headerRef} className="mb-12 lg:mb-20">
-          <div className="text-sm font-heading font-bold text-primary uppercase tracking-widest mb-6">
-            OUR PRODUCTS
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-[52px] font-heading font-bold text-text-dark mb-8 leading-tight max-w-4xl">
-            COMPONENTS FOR COMPLETE SOLAR SOLUTIONS
-          </h2>
-          <p className="text-lg md:text-xl text-text-muted max-w-2xl leading-relaxed font-sans">
-            From solar generation and energy storage to installation essentials, ARKGO Solutions provides the components required for dependable solar systems.
-          </p>
-        </div>
-
-        {/* Editorial Split Catalogue Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-          
-          {/* Left: 60% Service Directory */}
-          <div className="lg:col-span-7 flex flex-col order-2 lg:order-1">
-            <div ref={listRef} className="flex flex-col border-t border-border-edge w-full">
-              {products.map((product, index) => (
-                <ProductListItem 
-                  key={product.id} 
-                  product={product} 
-                  isActive={activeIndex === index}
-                  onInteract={() => setActiveIndex(index)}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Right: 40% Large Visual Area */}
-          <div className="lg:col-span-5 relative w-full h-[350px] sm:h-[450px] lg:h-[700px] xl:h-[750px] order-1 lg:order-2 lg:sticky lg:top-32">
-            <div 
-              ref={imageContainerRef} 
-              className="absolute inset-0 w-full h-full bg-white border border-border-edge overflow-hidden shadow-sm"
-            >
-              <div 
-                ref={imageRef} 
-                className={`absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center transition-colors duration-700 ${activeProduct.bgClass || "bg-tint-blue"}`}
-              >
-                {activeProduct.image && (
-                  <Image
-                    src={activeProduct.image}
-                    alt={activeProduct.title}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 40vw"
-                    className="object-cover"
-                  />
-                )}
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent z-10" />
-                
-                {/* Image Overlay text */}
-                <div className="z-20 flex flex-col items-center mt-auto pb-8 text-center px-6">
-                  <span className="block mb-2 font-heading font-bold text-white uppercase tracking-widest text-sm md:text-base">
-                    {activeProduct.title.toUpperCase()}
-                  </span>
-                  <span className="text-sm text-white/90 max-w-[250px] leading-relaxed">
-                    Premium quality {activeProduct.title.toLowerCase()}
-                  </span>
-                </div>
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+          <div className="max-w-2xl">
+            <div className="flex items-start mb-6">
+              <div className="w-[3px] h-4 bg-secondary mr-4 mt-0.5" />
+              <div className="text-sm font-heading font-bold text-primary uppercase tracking-widest">
+                PRODUCT CAPABILITIES
               </div>
             </div>
-            
-            {/* Subtle structural accent */}
-            <div className="absolute top-8 -right-4 w-1 h-32 bg-secondary hidden lg:block z-20" />
-            
-            {/* Technical block accent */}
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-primary/5 hidden lg:block -z-10" />
+            <h2 className="text-3xl md:text-4xl lg:text-[42px] font-heading font-extrabold text-primary leading-[1.1]">
+              QUALITY COMPONENTS FOR EVERY INSTALLATION.
+            </h2>
           </div>
+          <Link 
+            href="/contact" 
+            className="inline-flex items-center justify-center bg-secondary text-white hover:bg-[#b83b27] rounded-[4px] font-heading font-bold uppercase tracking-widest text-xs px-8 py-4 transition-colors group whitespace-nowrap"
+          >
+            ASK ABOUT PRODUCTS
+            <ArrowRight className="w-4 h-4 ml-3 transition-transform duration-300 group-hover:translate-x-1.5" />
+          </Link>
+        </div>
 
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 lg:gap-6">
+          {products.map((product, idx) => (
+            <div 
+              key={idx} 
+              className="flex flex-col items-center justify-center text-center p-6 bg-[#FAF7F0] border border-primary/5 rounded-sm hover:border-secondary/30 transition-colors"
+            >
+              <div className="mb-4 p-3 bg-white rounded-full shadow-sm">
+                {product.icon}
+              </div>
+              <span className="text-sm font-heading font-bold text-primary">{product.name}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>

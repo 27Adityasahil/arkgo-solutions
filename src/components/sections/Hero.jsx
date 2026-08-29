@@ -38,7 +38,6 @@ export default function Hero() {
           .to(elementsRef.current[1], { y: 0, opacity: 1, duration: 0.8 }, 1.0) // Heading
           .to(elementsRef.current[2], { y: 0, opacity: 1, duration: 0.8 }, 1.2) // Supporting copy
           .to(elementsRef.current[3], { y: 0, opacity: 1, duration: 0.8 }, 1.4) // CTAs
-          .to(elementsRef.current[4], { y: 0, opacity: 1, duration: 0.8 }, 1.6) // Credibility
           .to(decorativeLineRef.current, { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, 1.4)
           .to(scrollIndicatorRef.current, { opacity: 1, duration: 1.0 }, 1.8);
           
@@ -110,13 +109,14 @@ export default function Hero() {
             
             {/* Headline */}
             <h1 ref={el => elementsRef.current[1] = el} className="text-[40px] md:text-5xl lg:text-[64px] xl:text-[72px] leading-[1.05] tracking-[-0.02em] font-heading font-extrabold text-white mb-6">
-              POWERING BIHAR<br/>
-              WITH CLEAN SOLAR ENERGY.
+              POWERING HOMES,<br/>
+              BUSINESSES &amp; PROJECTS<br/>
+              WITH SOLAR ENERGY.
             </h1>
             
             {/* Supporting Copy */}
             <p ref={el => elementsRef.current[2] = el} className="text-base md:text-lg text-white/80 font-sans leading-relaxed mb-10 max-w-md">
-              Reliable solar solutions for residential, commercial and industrial requirements across Bihar.
+              Reliable solar supply, installation, and service for residential and commercial requirements across Bihar.
             </p>
             
             {/* CTAs */}
@@ -125,41 +125,17 @@ export default function Hero() {
                 href="/contact" 
                 className="inline-flex items-center justify-center bg-secondary text-white hover:bg-[#b83b27] rounded-[4px] font-heading font-bold uppercase tracking-widest text-xs px-8 py-4 transition-colors group"
               >
-                GET A QUOTE
+                GET A SOLAR QUOTE
                 <ArrowRight className="w-4 h-4 ml-3 transition-transform duration-300 group-hover:translate-x-1.5" />
               </Link>
               
               <Link 
-                href="/contact" 
+                href="/solar-solutions" 
                 className="inline-flex items-center justify-center bg-transparent border border-white text-white hover:bg-white/10 rounded-[4px] font-heading font-bold uppercase tracking-widest text-xs px-8 py-4 transition-colors"
               >
-                WHATSAPP US
+                EXPLORE SOLAR SOLUTIONS
                 <ArrowRight className="w-4 h-4 ml-3" />
               </Link>
-            </div>
-
-            {/* Credibility Marker */}
-            <div ref={el => elementsRef.current[4] = el} className="flex flex-col sm:flex-row sm:items-center gap-y-4 sm:gap-x-6 border-t border-white/20 pt-8">
-              
-              <div className="flex flex-col">
-                <span className="text-lg font-heading font-bold text-white leading-none mb-1">1+ MW</span>
-                <span className="text-[10px] font-heading text-white/70 uppercase tracking-widest">SOLAR PROJECTS EXECUTED</span>
-              </div>
-              
-              <div className="hidden sm:block w-px h-8 bg-white/20"></div>
-              
-              <div className="flex flex-col">
-                <span className="text-lg font-heading font-bold text-white leading-none mb-1">TOP 10</span>
-                <span className="text-[10px] font-heading text-white/70 uppercase tracking-widest">NBPDCL VENDOR</span>
-              </div>
-              
-              <div className="hidden sm:block w-px h-8 bg-white/20"></div>
-              
-              <div className="flex flex-col">
-                <span className="text-lg font-heading font-bold text-white leading-none mb-1">3×</span>
-                <span className="text-[10px] font-heading text-white/70 uppercase tracking-widest">DM SAMASTIPUR</span>
-              </div>
-
             </div>
 
           </div>

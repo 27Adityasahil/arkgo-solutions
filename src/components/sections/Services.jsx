@@ -13,19 +13,37 @@ const solutions = [
     id: "01",
     title: "RESIDENTIAL SOLAR",
     description: "Solar solutions designed for residential energy requirements.",
-    image: "/images/ai/arkgo-solar-installation-commercial-wide.webp" // Used as fallback for residential
+    image: "/images/ai/arkgo-solar-installation-commercial-wide.webp"
   },
   {
     id: "02",
     title: "COMMERCIAL SOLAR",
     description: "Solar solutions for commercial properties and business requirements.",
-    image: "/images/ai/arkgo-corporate-solar-infrastructure.webp" // Used as fallback for commercial
+    image: "/images/ai/arkgo-corporate-solar-infrastructure.webp"
   },
   {
     id: "03",
-    title: "INDUSTRIAL SOLAR",
-    description: "Solar solutions for larger industrial energy requirements.",
+    title: "SOLAR DISTRIBUTION",
+    description: "Product sourcing and supply support for solar retailers and contractors.",
     image: "/images/ai/arkgo-industrial-solar-installation.webp"
+  },
+  {
+    id: "04",
+    title: "SOLAR RETAIL",
+    description: "Direct retail of high-quality solar products and components to end consumers.",
+    image: "/images/ai/arkgo-solar-installation-commercial-wide.webp"
+  },
+  {
+    id: "05",
+    title: "SOLAR INSTALLATION",
+    description: "Professional solar installation services ensuring safety and efficiency.",
+    image: "/images/ai/arkgo-solar-technician-portrait.webp"
+  },
+  {
+    id: "06",
+    title: "SERVICE & MAINTENANCE",
+    description: "Ongoing support and maintenance to keep your solar systems running optimally.",
+    image: "/images/ai/arkgo-corporate-solar-infrastructure.webp"
   }
 ];
 
@@ -239,10 +257,10 @@ export default function Services() {
         {/* Section CTA */}
         <div ref={ctaRef} className="flex pt-8 lg:pt-12">
           <Link 
-            href="/services" 
+            href="/contact" 
             className="inline-flex items-center justify-center border-2 border-primary text-primary hover:border-secondary hover:text-secondary rounded-[4px] font-heading font-bold uppercase tracking-widest text-xs px-8 py-4 transition-colors group"
           >
-            VIEW ALL SERVICES
+            DISCUSS YOUR SOLAR REQUIREMENT
             <ArrowRight className="w-4 h-4 ml-3 transition-transform duration-300 group-hover:translate-x-1.5" />
           </Link>
         </div>
