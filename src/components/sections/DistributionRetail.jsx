@@ -24,8 +24,7 @@ export default function DistributionRetail() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
-          
-          {/* Retailers Card */}
+
           <div className="bg-white p-8 lg:p-12 rounded-sm shadow-sm border border-primary/5 hover:border-secondary/30 transition-colors flex flex-col">
             <div className="w-14 h-14 bg-[#FAF7F0] rounded-full flex items-center justify-center mb-6">
               <Package className="w-6 h-6 text-primary" />
@@ -45,7 +44,6 @@ export default function DistributionRetail() {
             </Link>
           </div>
 
-          {/* Consumers Card */}
           <div className="bg-white p-8 lg:p-12 rounded-sm shadow-sm border border-primary/5 hover:border-secondary/30 transition-colors flex flex-col">
             <div className="w-14 h-14 bg-[#FAF7F0] rounded-full flex items-center justify-center mb-6">
               <Home className="w-6 h-6 text-primary" />

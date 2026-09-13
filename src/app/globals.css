@@ -2,26 +2,26 @@
 
 @theme inline {
   /* BRAND */
-  --color-primary: #073B73;
-  --color-secondary: #D94A32;
-  --color-accent: #F2B632;
-  --color-accent-orange: #F28C28;
+  --color-primary: #D32F2F;      /* Traditional Red */
+  --color-secondary: #FFC107;    /* Business Yellow */
+  --color-accent: #FFB300;       /* Accent Yellow */
+  --color-primary-dark: #B71C1C; /* Dark Red */
 
   /* BACKGROUNDS */
   --color-bg-white: #FFFFFF;
-  --color-bg-ivory: #FAF7F0;
-  --color-bg-light-blue: #E8F1F8;
+  --color-bg-light-yellow: #FFF8E1;
+  --color-bg-off-white: #F9FAFB;
 
   /* TEXT — LIGHT BACKGROUNDS */
-  --color-text-primary: #172B4D;
-  --color-text-secondary: #425466;
-  --color-text-muted: #667085;
+  --color-text-primary: #111827;
+  --color-text-secondary: #374151;
+  --color-text-muted: #6B7280;
 
   /* TEXT — DARK BACKGROUNDS */
-  --color-text-on-dark: #F4F7FA;
+  --color-text-on-dark: #F9FAFB;
   --color-heading-on-dark: #FFFFFF;
 
-  --color-border-edge: #DCE4E8;
+  --color-border-edge: #E5E7EB;
   --color-white: #FFFFFF;
 
   --font-sans: var(--font-sans);
@@ -43,4 +43,9 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
 }
 
-
+/* Reset Lists */
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

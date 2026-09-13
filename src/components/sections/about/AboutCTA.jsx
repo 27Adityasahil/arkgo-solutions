@@ -1,192 +1,87 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
 
 export default function AboutCTA() {
-  const sectionRef = useRef(null);
-  const numberRef = useRef(null);
-  const eyebrowRef = useRef(null);
-  const markerRef = useRef(null);
-  const headingRef = useRef(null);
-  const copyRef = useRef(null);
-  const cta1Ref = useRef(null);
-  const cta2Ref = useRef(null);
-  const contactLineRef = useRef(null);
-  const imageStripRef = useRef(null);
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      // Initial States
-      gsap.set(numberRef.current, { opacity: 0 });
-      gsap.set([eyebrowRef.current, headingRef.current, copyRef.current, cta1Ref.current, cta2Ref.current, contactLineRef.current], { y: 20, opacity: 0 });
-      gsap.set(markerRef.current, { scaleY: 0, transformOrigin: "top" });
-      if (imageStripRef.current) gsap.set(imageStripRef.current, { clipPath: "inset(0% 100% 0% 0%)" });
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            toggleActions: "play none none none"
-          },
-          defaults: { ease: "power3.out" }
-        });
-
-        tl.to(numberRef.current, { opacity: 0.04, duration: 1.5 }, 0)
-          .to(markerRef.current, { scaleY: 1, duration: 0.4 }, 0.2)
-          .to(eyebrowRef.current, { y: 0, opacity: 1, duration: 0.6 }, 0.3)
-          .to(headingRef.current, { y: 0, opacity: 1, duration: 0.8 }, 0.4)
-          .to(copyRef.current, { y: 0, opacity: 1, duration: 0.8 }, 0.5)
-          .to(cta1Ref.current, { y: 0, opacity: 1, duration: 0.5 }, 0.6)
-          .to(cta2Ref.current, { y: 0, opacity: 1, duration: 0.5 }, 0.7)
-          .to(contactLineRef.current, { y: 0, opacity: 1, duration: 0.6 }, 0.8);
-
-        if (imageStripRef.current) {
-          tl.to(imageStripRef.current, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.5, ease: "power2.inOut" }, 0.5);
-        }
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.to(
-          [
-            numberRef.current,
-            markerRef.current,
-            eyebrowRef.current,
-            headingRef.current,
-            copyRef.current,
-            cta1Ref.current,
-            cta2Ref.current,
-            contactLineRef.current
-          ],
-          {
-            opacity: 1,
-            y: 0,
-            scaleY: 1,
-            duration: 0.6,
-            stagger: 0.1,
-            scrollTrigger: { trigger: sectionRef.current, start: "top 80%" }
-          }
-        );
-        if (imageStripRef.current) gsap.set(imageStripRef.current, { clipPath: "inset(0% 0% 0% 0%)" });
-      });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
-
   const whatsappMessage = encodeURIComponent("Hello, I am interested in exploring solar solutions with ARKGO.");
   const whatsappUrl = `https://wa.me/917979055407?text=${whatsappMessage}`;
 
   return (
-    <section ref={sectionRef} className="relative py-24 lg:py-36 bg-primary overflow-hidden z-0 border-t border-white/5">
-      
-      {/* Background Section Number */}
-      <div 
-        ref={numberRef}
-        className="absolute top-20 right-10 lg:top-32 lg:right-20 text-[200px] md:text-[350px] lg:text-[450px] font-heading font-black text-white leading-none select-none pointer-events-none -z-10 tracking-tighter"
-        aria-hidden="true"
-      >
-        08
-      </div>
-
+    <section className="py-20 lg:py-28 bg-primary">
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-[1400px]">
-        
-        {/* Architectural Two-Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-end">
-          
-          {/* LEFT: Main Typography (6 cols) */}
-          <div className="lg:col-span-6 flex flex-col relative z-10 pt-4">
-            
-            <div className="flex items-center mb-8">
-              <span ref={markerRef} className="w-1 h-5 bg-secondary mr-4 block" />
-              <span ref={eyebrowRef} className="text-sm font-heading font-bold text-white uppercase tracking-[0.2em]">
-                WORK WITH ARKGO
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="flex flex-col">
+            <div className="flex items-center mb-6">
+              <span className="w-8 h-1 bg-secondary mr-4 inline-block"></span>
+              <span className="text-sm font-heading font-bold text-secondary uppercase tracking-[0.15em]">
+                Work with Arkgo
               </span>
             </div>
             
-            <h2 ref={headingRef} className="text-4xl md:text-5xl lg:text-[64px] xl:text-[76px] font-heading font-extrabold text-white leading-[1.05] tracking-tight pr-4">
-              LET&apos;S DISCUSS YOUR SOLAR REQUIREMENT.
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight mb-6">
+              Let&apos;s Discuss Your Solar Requirement.
             </h2>
             
-          </div>
-
-          {/* RIGHT: Contact Block (6 cols) */}
-          <div className="lg:col-span-6 flex flex-col relative z-10 w-full pb-2">
-            
-            <p ref={copyRef} className="text-base md:text-lg lg:text-xl text-text-on-dark font-sans leading-relaxed mb-12 max-w-lg">
+            <p className="text-lg text-white/80 font-sans leading-relaxed max-w-lg mb-10">
               Have a residential, commercial or industrial solar requirement? Speak with ARKGO Solutions about your project.
             </p>
-            
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-10 w-full">
-              <div ref={cta1Ref} className="w-full sm:w-auto">
-                <Link 
-                  href="/contact" 
-                  className="flex items-center justify-center w-full bg-secondary text-white px-10 py-5 text-sm font-heading font-bold uppercase tracking-widest transition-colors duration-300 hover:bg-[#c23e28] group/primary shadow-lg shadow-black/10"
-                >
-                  GET A QUOTE
-                  <ArrowRight className="ml-3 w-4 h-4 transition-transform duration-300 group-hover/primary:translate-x-1.5" />
-                </Link>
-              </div>
-              
-              <div ref={cta2Ref} className="w-full sm:w-auto">
-                <Link 
-                  href={whatsappUrl} 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-full bg-transparent border border-white text-white px-10 py-5 text-sm font-heading font-bold uppercase tracking-widest transition-colors duration-300 hover:border-secondary hover:text-secondary group/secondary"
-                >
-                  WHATSAPP US
-                  <ArrowRight className="ml-3 w-4 h-4 transition-transform duration-300 group-hover/secondary:translate-x-1.5" />
-                </Link>
-              </div>
-            </div>
-            
-            {/* Direct Contact Line */}
-            <div ref={contactLineRef} className="flex flex-col gap-4">
-              <div className="flex flex-col sm:flex-row sm:items-center text-xs font-heading font-bold text-white/60 uppercase tracking-widest gap-2 sm:gap-4">
-                <a href="tel:6207596334" className="hover:text-white transition-colors duration-300 hover:underline underline-offset-4">
-                  CALL 6207596334
-                </a>
-                <span className="hidden sm:inline-block text-white/30">•</span>
-                <span className="sm:hidden text-white/30 text-[10px]">OR</span>
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300 hover:underline underline-offset-4">
-                  WHATSAPP 7979055407
-                </a>
-              </div>
-              
-              <span className="text-[10px] font-heading font-bold text-white/30 uppercase tracking-[0.2em] pt-4 border-t border-white/10 w-fit">
-                MUZAFFARPUR, BIHAR
-              </span>
-            </div>
 
+            <div className="flex flex-col sm:flex-row gap-4 w-full">
+              <Link 
+                href="/contact" 
+                className="flex items-center justify-center bg-secondary text-white px-8 py-4 text-sm font-heading font-bold uppercase tracking-widest transition-colors duration-300 hover:bg-secondary/90 shadow-none rounded-none"
+              >
+                Get a Quote
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+              
+              <Link 
+                href={whatsappUrl} 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center bg-transparent border border-white text-white px-8 py-4 text-sm font-heading font-bold uppercase tracking-widest transition-colors duration-300 hover:bg-white/10 rounded-none"
+              >
+                WhatsApp Us
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+            </div>
           </div>
-          
-        </div>
 
-        {/* Optional narrow background strip */}
-        <div ref={imageStripRef} className="absolute bottom-0 right-0 w-[45%] h-32 opacity-10 pointer-events-none hidden lg:block overflow-hidden">
-           <div className="absolute inset-0 z-0">
-             <Image
-               src="/images/ai/arkgo-solar-project-consultation.webp"
-               alt="Solar project consultation in India"
-               fill
-               className="object-cover object-center"
-               sizes="(max-width: 1024px) 100vw, 65vw"
-             />
-            {/* Dark gradient overlay to blend into background */}
-            <div className="absolute inset-0 bg-gradient-to-t from-primary to-primary/20" />
-            <div className="absolute inset-0 bg-gradient-to-r from-primary to-transparent" />
-        </div>
-        </div>
+          <div className="flex flex-col">
+            <div className="bg-white/5 border border-white/10 p-8 rounded-none">
+              <h3 className="text-xl font-heading font-extrabold text-white uppercase tracking-wider mb-6">
+                Direct Contact
+              </h3>
+              
+              <div className="flex flex-col gap-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-none bg-white/10 flex items-center justify-center shrink-0">
+                    <svg className="w-5 h-5 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="text-xs font-heading font-bold text-white/60 uppercase tracking-widest block mb-1">Call Us</span>
+                    <a href="tel:6207596334" className="text-lg font-heading font-bold text-white hover:text-secondary transition-colors">6207596334</a>
+                  </div>
+                </div>
 
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-none bg-white/10 flex items-center justify-center shrink-0">
+                    <svg className="w-5 h-5 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="text-xs font-heading font-bold text-white/60 uppercase tracking-widest block mb-1">WhatsApp</span>
+                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-lg font-heading font-bold text-white hover:text-secondary transition-colors">7979055407</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

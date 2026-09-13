@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 
 const faqs = [
@@ -54,114 +52,38 @@ const faqs = [
 ];
 
 export default function ServicesFAQ() {
-  const sectionRef = useRef(null);
-  const numberRef = useRef(null);
-  const eyebrowRef = useRef(null);
-  const headingRef = useRef(null);
-  const copyRef = useRef(null);
-  const faqListRef = useRef(null);
-  const faqItemRefs = useRef([]);
-  
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleFaq = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      // Initial States
-      gsap.set(numberRef.current, { opacity: 0 });
-      gsap.set([eyebrowRef.current, headingRef.current, copyRef.current], { y: 20, opacity: 0 });
-      
-      faqItemRefs.current.forEach(el => {
-        if (!el) return;
-        gsap.set(el, { y: 15, opacity: 0 });
-      });
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            toggleActions: "play none none none"
-          },
-          defaults: { ease: "power3.out" }
-        });
-
-        tl.to(numberRef.current, { opacity: 0.05, duration: 1.5 }, 0)
-          .to(eyebrowRef.current, { y: 0, opacity: 1, duration: 0.6 }, 0.2)
-          .to(headingRef.current, { y: 0, opacity: 1, duration: 0.8 }, 0.3)
-          .to(copyRef.current, { y: 0, opacity: 1, duration: 0.8 }, 0.4);
-
-        faqItemRefs.current.forEach((el, index) => {
-          if (!el) return;
-          tl.to(el, { y: 0, opacity: 1, duration: 0.6 }, 0.5 + (index * 0.1));
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        const items = faqItemRefs.current.filter(Boolean);
-        gsap.to(
-          [
-            numberRef.current,
-            eyebrowRef.current,
-            headingRef.current,
-            copyRef.current,
-            ...items
-          ],
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            scrollTrigger: { trigger: sectionRef.current, start: "top 80%" }
-          }
-        );
-      });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={sectionRef} className="relative py-20 lg:py-32 bg-[#FAF7F0] overflow-hidden z-0">
-      
-      {/* Background Section Number */}
-      <div 
-        ref={numberRef}
-        className="absolute top-10 left-10 lg:top-20 lg:left-20 text-[200px] md:text-[350px] lg:text-[450px] font-heading font-black text-primary leading-none select-none pointer-events-none -z-10 tracking-tighter"
-        aria-hidden="true"
-      >
+    <section className="relative py-20 lg:py-32 bg-[#FAF7F0] overflow-hidden z-0">
+      <div className="absolute top-10 left-10 lg:top-20 lg:left-20 text-[200px] md:text-[350px] lg:text-[450px] font-heading font-black text-primary leading-none select-none pointer-events-none -z-10 tracking-tighter opacity-5" aria-hidden="true">
         07
       </div>
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-[1400px]">
-        
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-          
-          {/* LEFT: Intro Content (4 cols) */}
           <div className="lg:col-span-4 flex flex-col pt-4 relative z-10 lg:sticky lg:top-32">
-            <div ref={eyebrowRef} className="flex items-center mb-6 lg:mb-8">
+            <div className="flex items-center mb-6 lg:mb-8">
               <span className="w-1 h-5 bg-secondary mr-4 block" />
               <span className="text-sm font-heading font-bold text-primary uppercase tracking-[0.2em]">
                 FAQ
               </span>
             </div>
             
-            <h2 ref={headingRef} className="text-3xl md:text-4xl lg:text-[46px] font-heading font-extrabold text-primary leading-[1.05] tracking-tight mb-6 lg:mb-8">
+            <h2 className="text-3xl md:text-4xl lg:text-[46px] font-heading font-extrabold text-primary leading-[1.05] tracking-tight mb-6 lg:mb-8">
               QUESTIONS BEFORE YOU START?
             </h2>
             
-            <p ref={copyRef} className="text-base lg:text-lg text-[#596773] font-sans leading-relaxed max-w-sm mb-12 lg:mb-16">
+            <p className="text-base lg:text-lg text-[#596773] font-sans leading-relaxed max-w-sm mb-12 lg:mb-16">
               Here are answers to some common questions about ARKGO&apos;s solar services and project requirements.
             </p>
           </div>
 
-          {/* RIGHT: Accordion (8 cols) */}
-          <div ref={faqListRef} className="lg:col-span-8 flex flex-col w-full relative z-10">
+          <div className="lg:col-span-8 flex flex-col w-full relative z-10">
             {faqs.map((faq, index) => {
               const isOpen = openIndex === index;
               const contentId = `faq-content-${faq.id}`;
@@ -170,7 +92,6 @@ export default function ServicesFAQ() {
               return (
                 <div 
                   key={faq.id}
-                  ref={el => faqItemRefs.current[index] = el}
                   className="group relative flex flex-col border-b border-[#DCE3E8]"
                 >
                   <button
@@ -180,7 +101,6 @@ export default function ServicesFAQ() {
                     onClick={() => toggleFaq(index)}
                     className="w-full text-left py-6 md:py-8 flex items-start gap-4 md:gap-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF7F0] group-hover:bg-primary/5 transition-colors duration-300"
                   >
-                    {/* Active Red Line */}
                     <div 
                       className={`absolute left-0 top-0 bottom-0 w-[2px] transition-colors duration-300 ${isOpen ? "bg-secondary" : "bg-transparent group-hover:bg-[#DCE3E8]"}`} 
                     />
@@ -218,7 +138,6 @@ export default function ServicesFAQ() {
               );
             })}
           </div>
-          
         </div>
       </div>
     </section>

@@ -1,166 +1,154 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import clsx from "clsx";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+import { useQuoteModal } from "@/contexts/QuoteModalContext";
+
+const slides = [
+  {
+    id: 1,
+    image: "/images/ai/arkgo-solar-installation-commercial-wide.webp",
+    subtitle: "ARKGO SOLAR SOLUTIONS",
+    title: "SWITCH TO SOLAR.<br/>SAVE MORE.<br/>POWER BETTER.",
+    description: "Complete solar solutions for homes, businesses, and industrial projects in Bihar. Get expert consultation and professional installation from a trusted local partner."
+  },
+  {
+    id: 2,
+    image: "/images/ai/arkgo-industrial-solar-installation.webp",
+    subtitle: "PREMIUM SOLAR PRODUCTS",
+    title: "HIGH EFFICIENCY.<br/>TIER-1 PANELS.<br/>LASTING VALUE.",
+    description: "Equip your property with industry-leading solar technology designed to deliver maximum yield, superior performance, and extreme durability."
+  },
+  {
+    id: 3,
+    image: "/images/ai/arkgo-corporate-solar-infrastructure.webp",
+    subtitle: "CERTIFIED INSTALLATION",
+    title: "EXPERT TEAMS.<br/>RELIABLE SERVICE.<br/>PEACE OF MIND.",
+    description: "From engineering to commissioning, our certified technicians ensure your solar project is built to the highest safety and quality standards."
+  }
+];
 
 export default function Hero() {
-  const sectionRef = useRef(null);
-  const contentBlockRef = useRef(null);
-  const elementsRef = useRef([]);
-  const imageContainerRef = useRef(null);
-  const imageRef = useRef(null);
-  const scrollIndicatorRef = useRef(null);
-  const decorativeLineRef = useRef(null);
+  const { openModal } = useQuoteModal();
+  const [current, setCurrent] = useState(0);
 
+  // Auto-play the slider
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      // Initial States
-      gsap.set(contentBlockRef.current, { x: -50, opacity: 0 });
-      gsap.set(elementsRef.current, { y: 20, opacity: 0 });
-      gsap.set(imageContainerRef.current, { clipPath: "inset(0% 100% 0% 0%)" });
-      gsap.set(imageRef.current, { scale: 1.03 });
-      gsap.set(scrollIndicatorRef.current, { opacity: 0 });
-      gsap.set(decorativeLineRef.current, { scaleX: 0, transformOrigin: "left center" });
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-        tl.to(imageContainerRef.current, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.5, ease: "power2.inOut" }, 0.1)
-          .to(contentBlockRef.current, { x: 0, opacity: 1, duration: 1.0, ease: "power2.out" }, 0.6)
-          .to(elementsRef.current[0], { y: 0, opacity: 1, duration: 0.8 }, 0.8) // Eyebrow
-          .to(elementsRef.current[1], { y: 0, opacity: 1, duration: 0.8 }, 1.0) // Heading
-          .to(elementsRef.current[2], { y: 0, opacity: 1, duration: 0.8 }, 1.2) // Supporting copy
-          .to(elementsRef.current[3], { y: 0, opacity: 1, duration: 0.8 }, 1.4) // CTAs
-          .to(decorativeLineRef.current, { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, 1.4)
-          .to(scrollIndicatorRef.current, { opacity: 1, duration: 1.0 }, 1.8);
-          
-        // Subtle image scroll motion
-        gsap.to(imageRef.current, {
-          yPercent: 3,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: true
-          }
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.to([contentBlockRef.current, ...elementsRef.current, scrollIndicatorRef.current, decorativeLineRef.current], { opacity: 1, x: 0, y: 0, scaleX: 1, duration: 0.6, stagger: 0.1 });
-        gsap.set(imageContainerRef.current, { clipPath: "inset(0% 0% 0% 0%)" });
-        gsap.set(imageRef.current, { scale: 1 });
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 6000);
+    return () => clearInterval(timer);
   }, []);
 
-  return (
-    <section ref={sectionRef} className="relative w-full min-h-screen lg:min-h-[85vh] lg:h-auto flex flex-col lg:flex-row bg-white overflow-hidden">
+  const nextSlide = () => setCurrent(current === slides.length - 1 ? 0 : current + 1);
+  const prevSlide = () => setCurrent(current === 0 ? slides.length - 1 : current - 1);
+  const goToSlide = (index) => setCurrent(index);
 
-      <div 
-        ref={imageContainerRef} 
-        className="relative w-full h-[40vh] min-h-[350px] lg:absolute lg:inset-0 lg:h-full lg:min-h-full z-0 order-1 lg:order-none"
-      >
-        <div ref={imageRef} className="absolute inset-0 z-0">
+  return (
+    <section className="relative w-full h-[100svh] min-h-[600px] bg-gray-900 overflow-hidden flex items-center pt-[72px] lg:pt-[116px]">
+      
+      {/* Background Images Layer */}
+      {slides.map((slide, index) => (
+        <div 
+          key={slide.id}
+          className={clsx(
+            "absolute inset-0 transition-opacity duration-1000 ease-in-out z-0",
+            index === current ? "opacity-100" : "opacity-0"
+          )}
+        >
           <Image
-            src="/images/ai/arkgo-solar-installation-commercial-wide.webp"
-            alt="Commercial Rooftop Solar Installation in Bihar"
+            src={slide.image}
+            alt="Arkgo Solar Installation"
             fill
-            priority
+            priority={index === 0}
             className="object-cover"
             sizes="100vw"
           />
-          {/* Subtle overlay only if needed for extreme brightness, but relying on panel for contrast */}
-          <div className="absolute inset-0 bg-primary/10 mix-blend-multiply" />
+          {/* Dark Overlay for Text Readability */}
+          <div className="absolute inset-0 bg-black/60"></div>
         </div>
-      </div>
+      ))}
 
-      {/* 3. Blue Content Block (Mobile Order 3, Desktop Left Panel) */}
-      <div className="relative z-10 flex w-full lg:w-[45%] h-auto lg:h-full order-2 lg:order-none lg:min-h-screen">
-        <div 
-          ref={contentBlockRef}
-          className="w-full bg-primary flex flex-col justify-center px-6 pt-28 pb-16 lg:pt-[16vh] lg:pb-[10vh] md:px-12 lg:px-16 xl:px-20 relative"
-        >
-          {/* Decorative Element: Architectural Red Line extending out */}
-          <div 
-            ref={decorativeLineRef}
-            className="hidden lg:block absolute top-[25%] -right-16 w-32 h-[2px] bg-secondary opacity-50 z-20" 
+      {/* Content Layer */}
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-[1400px] relative z-10 flex flex-col justify-center h-full pb-20">
+        <div className="max-w-3xl">
+          <div className="flex items-center mb-6">
+            <span className="inline-block bg-secondary text-primary font-bold px-4 py-1 uppercase tracking-widest text-sm transition-all duration-300">
+              {slides[current].subtitle}
+            </span>
+          </div>
+
+          <h1 
+            className="text-5xl md:text-6xl lg:text-7xl font-heading font-black text-white leading-[1.1] tracking-tight mb-8"
+            dangerouslySetInnerHTML={{ __html: slides[current].title }}
           />
 
-          <div className="max-w-2xl mx-auto lg:mx-0 w-full">
-            
-            {/* Eyebrow */}
-            <div ref={el => elementsRef.current[0] = el} className="flex items-center mb-6">
-              <span className="w-1 h-4 bg-secondary mr-3 inline-block"></span>
-              <span className="text-xs md:text-sm font-heading font-bold text-white uppercase tracking-widest">
-                ARKGO SOLUTIONS
-              </span>
-            </div>
-            
-            {/* Headline */}
-            <h1 ref={el => elementsRef.current[1] = el} className="text-[40px] md:text-5xl lg:text-[64px] xl:text-[72px] leading-[1.05] tracking-[-0.02em] font-heading font-extrabold text-white mb-6">
-              POWERING HOMES,<br/>
-              BUSINESSES &amp; PROJECTS<br/>
-              WITH SOLAR ENERGY.
-            </h1>
-            
-            {/* Supporting Copy */}
-            <p ref={el => elementsRef.current[2] = el} className="text-base md:text-lg text-white/80 font-sans leading-relaxed mb-10 max-w-md">
-              Reliable solar supply, installation, and service for residential and commercial requirements across Bihar.
-            </p>
-            
-            {/* CTAs */}
-            <div ref={el => elementsRef.current[3] = el} className="flex flex-col sm:flex-row gap-4 mb-16">
-              <Link 
-                href="/contact" 
-                className="inline-flex items-center justify-center bg-secondary text-white hover:bg-[#b83b27] rounded-[4px] font-heading font-bold uppercase tracking-widest text-xs px-8 py-4 transition-colors group"
-              >
-                GET A SOLAR QUOTE
-                <ArrowRight className="w-4 h-4 ml-3 transition-transform duration-300 group-hover:translate-x-1.5" />
-              </Link>
-              
-              <Link 
-                href="/solar-solutions" 
-                className="inline-flex items-center justify-center bg-transparent border border-white text-white hover:bg-white/10 rounded-[4px] font-heading font-bold uppercase tracking-widest text-xs px-8 py-4 transition-colors"
-              >
-                EXPLORE SOLAR SOLUTIONS
-                <ArrowRight className="w-4 h-4 ml-3" />
-              </Link>
-            </div>
+          <p className="text-lg md:text-xl text-white/90 font-sans leading-relaxed mb-10 max-w-2xl font-medium">
+            {slides[current].description}
+          </p>
 
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button 
+              onClick={() => openModal()}
+              className="inline-flex items-center justify-center bg-primary text-white font-sans font-bold text-lg px-10 py-4 transition-colors hover:bg-primary-dark shadow-[4px_4px_0px_rgba(255,193,7,1)] cursor-pointer uppercase tracking-wide border-2 border-primary hover:translate-y-1 hover:shadow-[0px_0px_0px_rgba(255,193,7,1)] duration-200"
+            >
+              GET SOLAR QUOTE
+            </button>
+            
+            <Link 
+              href="/solar-solutions"
+              className="inline-flex items-center justify-center bg-transparent text-white font-sans font-bold text-lg px-10 py-4 transition-colors hover:bg-white hover:text-primary uppercase tracking-wide border-2 border-white"
+            >
+              EXPLORE SOLAR
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div 
-        ref={scrollIndicatorRef}
-        className="hidden lg:flex absolute bottom-8 left-8 xl:left-16 z-20 items-center gap-4 text-white mix-blend-difference"
-      >
-        <span className="text-[10px] font-heading font-bold uppercase tracking-widest">SCROLL TO EXPLORE</span>
-        <div className="relative w-12 h-px bg-white/30 overflow-hidden">
-          <div className="absolute top-0 left-0 h-full w-full bg-white origin-left animate-[scroll-line_2s_ease-in-out_infinite]" />
+      {/* Slider Controls */}
+      <div className="absolute bottom-8 left-0 right-0 z-20">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-[1400px] flex items-center justify-between">
+          
+          {/* Dots */}
+          <div className="flex items-center space-x-3">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={clsx(
+                  "w-3 h-3 rounded-full transition-all duration-300 cursor-pointer",
+                  index === current ? "bg-secondary w-8" : "bg-white/50 hover:bg-white/80"
+                )}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+          
+          {/* Arrows */}
+          <div className="flex items-center space-x-2">
+            <button 
+              onClick={prevSlide}
+              className="p-3 bg-white/10 hover:bg-primary text-white border border-white/20 hover:border-primary transition-colors cursor-pointer rounded-none"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button 
+              onClick={nextSlide}
+              className="p-3 bg-white/10 hover:bg-primary text-white border border-white/20 hover:border-primary transition-colors cursor-pointer rounded-none"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+          
         </div>
       </div>
-      
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes scroll-line {
-          0% { transform: scaleX(0); transform-origin: left; }
-          50% { transform: scaleX(1); transform-origin: left; }
-          50.1% { transform: scaleX(1); transform-origin: right; }
-          100% { transform: scaleX(0); transform-origin: right; }
-        }
-      `}} />
+
     </section>
   );
 }

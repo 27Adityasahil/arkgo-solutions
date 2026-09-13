@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState } from "react";
 import { Plus, Minus, ArrowDown } from "lucide-react";
 
 const considerations = [
@@ -61,117 +59,20 @@ const faqs = [
 ];
 
 export default function ProjectConsiderationsFAQ() {
-  const sectionRef = useRef(null);
-  const numberRef = useRef(null);
-  
-  // Considerations Refs
-  const consHeadingRef = useRef(null);
-  const consListRef = useRef([]);
-  const equationRef = useRef(null);
-  
-  // FAQ Refs
-  const faqListRef = useRef(null);
-  const faqItemRefs = useRef([]);
-  
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleFaq = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      // Initial States
-      gsap.set(numberRef.current, { opacity: 0 });
-      gsap.set(consHeadingRef.current, { y: 20, opacity: 0 });
-      gsap.set(equationRef.current, { opacity: 0, scale: 0.95 });
-      
-      consListRef.current.forEach(el => el && gsap.set(el, { y: 20, opacity: 0 }));
-      faqItemRefs.current.forEach(el => el && gsap.set(el, { y: 15, opacity: 0 }));
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // Considerations Timeline
-        const tlCons = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            toggleActions: "play none none none"
-          },
-          defaults: { ease: "power3.out" }
-        });
-
-        tlCons.to(numberRef.current, { opacity: 0.04, duration: 1.5 }, 0)
-          .to(consHeadingRef.current, { y: 0, opacity: 1, duration: 0.8 }, 0.2);
-
-        consListRef.current.forEach((el, index) => {
-          if (!el) return;
-          tlCons.to(el, { y: 0, opacity: 1, duration: 0.5 }, 0.4 + (index * 0.1));
-        });
-        
-        tlCons.to(equationRef.current, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.5)" }, 0.8);
-
-        // FAQ Timeline
-        const tlFaq = gsap.timeline({
-          scrollTrigger: {
-            trigger: faqListRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none"
-          },
-          defaults: { ease: "power3.out" }
-        });
-
-        faqItemRefs.current.forEach((el, index) => {
-          if (!el) return;
-          tlFaq.to(el, { y: 0, opacity: 1, duration: 0.6 }, index * 0.1);
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        const consItems = consListRef.current.filter(Boolean);
-        const faqItems = faqItemRefs.current.filter(Boolean);
-        
-        gsap.to(
-          [
-            numberRef.current,
-            consHeadingRef.current,
-            ...consItems,
-            equationRef.current,
-            ...faqItems
-          ],
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.6,
-            stagger: 0.05,
-            scrollTrigger: { trigger: sectionRef.current, start: "top 80%" }
-          }
-        );
-      });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={sectionRef} className="relative py-20 lg:py-32 bg-white overflow-hidden z-0">
-      
-      {/* Background Section Number */}
-      <div 
-        ref={numberRef}
-        className="absolute top-10 left-10 lg:top-20 lg:left-20 text-[200px] md:text-[350px] lg:text-[450px] font-heading font-black text-primary leading-none select-none pointer-events-none -z-10 tracking-tighter"
-        aria-hidden="true"
-      >
+    <section className="relative py-20 lg:py-32 bg-white overflow-hidden z-0">
+      <div className="absolute top-10 left-10 lg:top-20 lg:left-20 text-[200px] md:text-[350px] lg:text-[450px] font-heading font-black text-primary leading-none select-none pointer-events-none -z-10 tracking-tighter opacity-[0.04]" aria-hidden="true">
         06
       </div>
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-[1400px]">
-        
-        {/* PART A: PROJECT CONSIDERATIONS */}
         <div className="flex flex-col items-center text-center mb-20 lg:mb-32 relative z-10">
-          
           <div className="flex items-center justify-center mb-6 lg:mb-8">
             <span className="w-1 h-5 bg-secondary mr-4 block" />
             <span className="text-sm font-heading font-bold text-primary uppercase tracking-[0.2em]">
@@ -180,15 +81,14 @@ export default function ProjectConsiderationsFAQ() {
             <div className="w-1 h-5 bg-secondary ml-4 block lg:hidden" />
           </div>
           
-          <h2 ref={consHeadingRef} className="text-2xl md:text-3xl lg:text-[40px] font-heading font-extrabold text-primary leading-[1.1] tracking-tight mb-12 lg:mb-16 max-w-4xl">
+          <h2 className="text-2xl md:text-3xl lg:text-[40px] font-heading font-extrabold text-primary leading-[1.1] tracking-tight mb-12 lg:mb-16 max-w-4xl">
             EVERY SOLAR PROJECT STARTS WITH THE RIGHT QUESTIONS.
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 w-full max-w-5xl mb-12">
-            {considerations.map((item, index) => (
+            {considerations.map((item) => (
               <div 
                 key={item.id} 
-                ref={el => consListRef.current[index] = el}
                 className="flex flex-col items-center border border-[#DCE3E8] p-6 lg:p-8"
               >
                 <span className="text-xl font-heading font-black text-primary/30 mb-3">{item.id}</span>
@@ -197,7 +97,7 @@ export default function ProjectConsiderationsFAQ() {
             ))}
           </div>
           
-          <div ref={equationRef} className="flex flex-col items-center bg-[#FAF7F0] w-full max-w-5xl p-8 lg:p-10 border border-[#DCE3E8]">
+          <div className="flex flex-col items-center bg-[#FAF7F0] w-full max-w-5xl p-8 lg:p-10 border border-[#DCE3E8]">
             <div className="flex flex-wrap justify-center items-center gap-y-3 text-xs md:text-sm font-heading font-bold text-primary uppercase tracking-widest text-center mb-6">
               <span>REQUIREMENT</span>
               <span className="text-secondary mx-3 md:mx-4">+</span>
@@ -214,13 +114,9 @@ export default function ProjectConsiderationsFAQ() {
               PROJECT-SPECIFIC SOLUTION
             </div>
           </div>
-          
         </div>
 
-        {/* PART B: FAQ */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-          
-          {/* LEFT: FAQ Heading */}
           <div className="lg:col-span-4 flex flex-col pt-4 relative z-10">
             <div className="flex items-center mb-6 lg:mb-8">
               <span className="w-1 h-5 bg-secondary mr-4 block" />
@@ -238,8 +134,7 @@ export default function ProjectConsiderationsFAQ() {
             </p>
           </div>
 
-          {/* RIGHT: Accordion (8 cols) */}
-          <div ref={faqListRef} className="lg:col-span-8 flex flex-col w-full relative z-10 pt-4">
+          <div className="lg:col-span-8 flex flex-col w-full relative z-10 pt-4">
             {faqs.map((faq, index) => {
               const isOpen = openIndex === index;
               const contentId = `faq-content-${faq.id}`;
@@ -248,7 +143,6 @@ export default function ProjectConsiderationsFAQ() {
               return (
                 <div 
                   key={faq.id}
-                  ref={el => faqItemRefs.current[index] = el}
                   className="group relative flex flex-col border-b border-[#DCE3E8]"
                 >
                   <button
@@ -258,20 +152,13 @@ export default function ProjectConsiderationsFAQ() {
                     onClick={() => toggleFaq(index)}
                     className="w-full text-left py-6 md:py-8 flex items-start gap-4 md:gap-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white group-hover:bg-primary/5 transition-colors duration-300"
                   >
-                    {/* Active Red Line */}
-                    <div 
-                      className={`absolute left-0 top-0 bottom-0 w-[2px] transition-colors duration-300 ${isOpen ? "bg-secondary" : "bg-transparent group-hover:bg-[#DCE3E8]"}`} 
-                    />
+                    <div className={`absolute left-0 top-0 bottom-0 w-[2px] transition-colors duration-300 ${isOpen ? "bg-secondary" : "bg-transparent group-hover:bg-[#DCE3E8]"}`} />
                     
-                    <span 
-                      className={`text-xl md:text-2xl font-heading font-black pl-4 tracking-widest transition-colors duration-300 ${isOpen ? "text-secondary" : "text-primary/40 group-hover:text-primary/60"}`}
-                    >
+                    <span className={`text-xl md:text-2xl font-heading font-black pl-4 tracking-widest transition-colors duration-300 ${isOpen ? "text-secondary" : "text-primary/40 group-hover:text-primary/60"}`}>
                       {faq.id}
                     </span>
                     
-                    <span 
-                      className={`flex-1 text-base md:text-lg font-heading font-bold uppercase tracking-wider leading-relaxed pr-4 transition-colors duration-300 ${isOpen ? "text-[#0a2340]" : "text-primary"}`}
-                    >
+                    <span className={`flex-1 text-base md:text-lg font-heading font-bold uppercase tracking-wider leading-relaxed pr-4 transition-colors duration-300 ${isOpen ? "text-[#0a2340]" : "text-primary"}`}>
                       {faq.question}
                     </span>
                     
@@ -296,7 +183,6 @@ export default function ProjectConsiderationsFAQ() {
               );
             })}
           </div>
-          
         </div>
       </div>
     </section>

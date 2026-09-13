@@ -9,6 +9,6 @@ export const siteConfig = {
     }
   },
   socials: {
-    // To be populated later if needed
+
   }
 };

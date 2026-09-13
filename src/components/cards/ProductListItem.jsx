@@ -20,7 +20,7 @@ export default function ProductListItem({ product, isActive, onInteract }) {
       onFocus={onInteract}
       aria-expanded={isActive}
     >
-      {/* Active state accent line */}
+
       <div 
         className={clsx(
           "absolute left-0 top-0 bottom-0 w-1 bg-secondary transition-opacity duration-300",
@@ -51,7 +51,6 @@ export default function ProductListItem({ product, isActive, onInteract }) {
           </p>
         </div>
 
-        {/* Desktop CTA alignment */}
         <div className="sm:ml-8 sm:mt-4 flex-shrink-0">
           <Link
             href="/contact"

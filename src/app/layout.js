@@ -1,17 +1,19 @@
-import { Montserrat, Open_Sans } from "next/font/google";
+import { Roboto_Slab, Roboto } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/animations/SmoothScroll";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
+import { QuoteModalProvider } from "@/contexts/QuoteModalContext";
+import QuoteModal from "@/components/common/QuoteModal";
 
-const montserrat = Montserrat({
+const robotoSlab = Roboto_Slab({
   variable: "--font-heading",
   subsets: ["latin"],
 });
 
-const openSans = Open_Sans({
+const roboto = Roboto({
   variable: "--font-sans",
+  weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
 });
 
@@ -34,14 +36,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${openSans.variable} antialiased`}>
-      <body className="min-h-screen flex flex-col font-sans bg-white text-slate-800">
-        <SmoothScroll>
+    <html lang="en" className={`${robotoSlab.variable} ${roboto.variable} antialiased`} suppressHydrationWarning>
+      <body className="min-h-screen flex flex-col font-sans bg-white text-gray-900">
+        <QuoteModalProvider>
           <Header />
           <main className="flex-grow">{children}</main>
           <Footer />
           <FloatingWhatsApp />
-        </SmoothScroll>
+          <QuoteModal />
+        </QuoteModalProvider>
       </body>
     </html>
   );

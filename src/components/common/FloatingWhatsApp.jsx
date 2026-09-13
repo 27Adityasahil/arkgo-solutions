@@ -7,7 +7,7 @@ export default function FloatingWhatsApp() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Small delay before showing to allow initial page load
+
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 1000);
@@ -19,8 +19,7 @@ export default function FloatingWhatsApp() {
   const whatsappMessage = encodeURIComponent(
     "Hello ARKGO, I am interested in solar solutions. I would like to know more about the available options."
   );
-  
-  // Use the WhatsApp number from site config
+
   const whatsappUrl = `https://wa.me/91${siteConfig.contact.whatsapp}?text=${whatsappMessage}`;
 
   return (
