@@ -14,17 +14,20 @@ export const CALCULATOR_CONFIG = {
 };
 
 /**
- * Calculates the recommended solar system size in kW based on monthly unit consumption.
- * Rounds to 1 decimal place (e.g., 0.8, 2.5).
+ * Calculates the recommended solar system size in kW based on monthly unit consumption brackets.
  * 
  * @param {number} monthlyUnits 
- * @returns {number} Estimated kW capacity
+ * @returns {number|string} Estimated kW capacity or "Custom"
  */
 export function calculateRecommendedKW(monthlyUnits) {
   if (!monthlyUnits || monthlyUnits <= 0) return 0;
   
-  const rawKW = monthlyUnits / CALCULATOR_CONFIG.UNITS_PER_KW_MONTHLY;
-  return Math.round(rawKW * 10) / 10;
+  if (monthlyUnits <= 120) return 1;
+  if (monthlyUnits <= 240) return 2;
+  if (monthlyUnits <= 360) return 3;
+  if (monthlyUnits <= 600) return 5;
+  
+  return "Custom";
 }
 
 /**
@@ -48,6 +51,6 @@ export function calculateEstimatedBill(monthlyUnits) {
 export function calculateRecommendedProject(monthlyUnits) {
   const kw = calculateRecommendedKW(monthlyUnits);
   if (kw === 0) return "";
-  const roundedUp = Math.ceil(kw);
-  return `${roundedUp} kW On-Grid Solar Project`;
+  if (kw === "Custom") return "Customized Solar Solution";
+  return `${kw} kW On-Grid System`;
 }

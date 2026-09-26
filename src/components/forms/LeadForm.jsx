@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { submitLead } from "@/lib/api";
+import { useBackendConnection } from "@/components/system/BackendConnectionProvider";
 
 export default function LeadForm({ initialData }) {
   const [formData, setFormData] = useState({
@@ -14,8 +15,9 @@ export default function LeadForm({ initialData }) {
     message: "",
   });
 
-  const [status, setStatus] = useState("idle"); // idle, loading, success, error
+  const [status, setStatus] = useState("idle"); // idle, loading, success, error, connecting_backend, not_connected_backend
   const [errorMessage, setErrorMessage] = useState("");
+  const { status: backendStatus, checkConnection } = useBackendConnection();
 
   useEffect(() => {
     if (initialData) {
@@ -56,6 +58,16 @@ export default function LeadForm({ initialData }) {
       return;
     }
 
+    if (backendStatus === "CONNECTING") {
+      setStatus("connecting_backend");
+      return;
+    }
+
+    if (backendStatus === "NOT_CONNECTED") {
+      setStatus("not_connected_backend");
+      return;
+    }
+
     setStatus("loading");
     setErrorMessage("");
     
@@ -85,7 +97,11 @@ export default function LeadForm({ initialData }) {
     } catch (error) {
       console.error("Lead submission error:", error);
       setStatus("error");
-      setErrorMessage(error.message || "Something went wrong. Please try submitting again.");
+      if (error instanceof TypeError) {
+        setErrorMessage("Connection interrupted. Please try again.");
+      } else {
+        setErrorMessage(error.message || "Something went wrong. Please try submitting again.");
+      }
     }
   };
 
@@ -251,6 +267,29 @@ export default function LeadForm({ initialData }) {
         {status === "error" && (
           <div className="p-3 bg-red-50 text-red-600 rounded-none border border-red-200 text-sm">
             {errorMessage || "Something went wrong. Please try submitting again."}
+          </div>
+        )}
+
+        {status === "connecting_backend" && (
+          <div className="p-3 bg-blue-50 text-blue-600 rounded-none border border-blue-200 text-sm">
+            <p className="font-bold">Connecting to ARKGO...</p>
+            <p>Please wait a moment while we connect to our server.</p>
+          </div>
+        )}
+
+        {status === "not_connected_backend" && (
+          <div className="p-3 bg-red-50 text-red-600 rounded-none border border-red-200 text-sm flex flex-col items-start gap-2">
+            <div>
+              <p className="font-bold">Unable to connect right now.</p>
+              <p>We couldn&apos;t connect to the ARKGO server. Please try again in a moment.</p>
+            </div>
+            <button 
+              type="button" 
+              onClick={() => { checkConnection(); setStatus('idle'); }}
+              className="px-4 py-1.5 bg-red-100 hover:bg-red-200 text-red-800 font-medium text-sm rounded border border-red-300 transition-colors"
+            >
+              Try Again
+            </button>
           </div>
         )}
 

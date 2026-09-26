@@ -66,20 +66,7 @@ export default function Header() {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    { 
-      name: "Solar Solutions", 
-      href: "/solar-solutions",
-      submenu: [
-        { name: "Residential Solar", desc: "Solar for your home.", href: "/solar-solutions/residential" },
-        { name: "Commercial Solar", desc: "Solar for your business.", href: "/solar-solutions/commercial" },
-        { name: "Solar Projects", desc: "Large scale solar engineering.", href: "/projects" },
-        { name: "Distribution & Retail", desc: "Solar components and materials.", href: "/solar-solutions/distribution" },
-        { name: "Installation & Service", desc: "Complete support and maintenance.", href: "/solar-solutions/installation" }
-      ]
-    },
-    { name: "Projects", href: "/projects" },
     { name: "Gallery", href: "/gallery" },
-    { name: "Reviews", href: "/reviews" },
     { name: "Contact", href: "/contact" }
   ];
 

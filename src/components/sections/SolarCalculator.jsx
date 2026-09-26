@@ -37,7 +37,7 @@ export default function SolarCalculator() {
     
     setResults({
       bill: estimatedBill.toLocaleString("en-IN"),
-      kw: recommendedKW.toFixed(1),
+      kw: recommendedKW === "Custom" ? "Custom" : Number(recommendedKW).toFixed(1),
       project: recommendedProject,
       units: units
     });
@@ -112,7 +112,7 @@ export default function SolarCalculator() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-8 border-y border-gray-100 py-6">
                   <div className="flex flex-col items-center justify-center text-center">
                     <div className="text-sm font-sans font-medium text-gray-500 mb-1">Recommended Capacity</div>
-                    <div className="text-xl font-sans font-bold text-gray-900">{results.kw} kW</div>
+                    <div className="text-xl font-sans font-bold text-gray-900">{results.kw === "Custom" ? "Custom Size" : `${results.kw} kW`}</div>
                   </div>
 
                   <div className="hidden sm:block w-px h-12 bg-gray-200"></div>

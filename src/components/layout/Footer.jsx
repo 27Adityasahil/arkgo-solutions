@@ -56,58 +56,21 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3 lg:col-start-6">
             <h4 className="text-lg font-heading font-bold text-gray-900 mb-6 uppercase tracking-wider">
-              Company
+              Navigation
             </h4>
             <ul className="space-y-4">
               {[
+                { name: 'Home', path: '/' },
                 { name: 'About', path: '/about' },
-                { name: 'Projects', path: '/projects' },
-                { name: 'Recognition', path: '/recognition' },
+                { name: 'Gallery', path: '/gallery' },
                 { name: 'Contact', path: '/contact' }
               ].map((item) => (
                 <li key={item.name}>
                   <Link href={item.path} className="text-[15px] font-sans font-medium text-gray-700 hover:text-primary transition-colors inline-flex items-center">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary/40 mr-2.5"></span>
                     {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-2">
-            <h4 className="text-lg font-heading font-bold text-gray-900 mb-6 uppercase tracking-wider">
-              Solar Solutions
-            </h4>
-            <ul className="space-y-4">
-              {[
-                { name: 'Residential Solar', path: '/solar-solutions/residential' },
-                { name: 'Commercial Solar', path: '/solar-solutions/commercial' },
-                { name: 'Distribution & Retail', path: '/solar-solutions/distribution' },
-                { name: 'Installation & Service', path: '/solar-solutions/installation' }
-              ].map((item) => (
-                <li key={item.name}>
-                  <Link href={item.path} className="text-[15px] font-sans font-medium text-gray-700 hover:text-primary transition-colors inline-flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary/40 mr-2.5"></span>
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-2">
-            <h4 className="text-lg font-heading font-bold text-gray-900 mb-6 uppercase tracking-wider">
-              Quick Links
-            </h4>
-            <ul className="space-y-4">
-              {['Home', 'About Us', 'Projects', 'Gallery', 'Reviews'].map((item) => (
-                <li key={item}>
-                  <Link href={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' us', '').replace(' ', '-')}`} className="text-[15px] font-sans font-medium text-gray-700 hover:text-primary transition-colors inline-flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary/40 mr-2.5"></span>
-                    {item}
                   </Link>
                 </li>
               ))}

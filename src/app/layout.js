@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
 import { QuoteModalProvider } from "@/contexts/QuoteModalContext";
 import QuoteModal from "@/components/common/QuoteModal";
+import BackendConnectionProvider from "@/components/system/BackendConnectionProvider";
 
 const robotoSlab = Roboto_Slab({
   variable: "--font-heading",
@@ -39,11 +40,13 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${robotoSlab.variable} ${roboto.variable} antialiased`} suppressHydrationWarning>
       <body className="min-h-screen flex flex-col font-sans bg-white text-gray-900">
         <QuoteModalProvider>
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-          <FloatingWhatsApp />
-          <QuoteModal />
+          <BackendConnectionProvider>
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+            <FloatingWhatsApp />
+            <QuoteModal />
+          </BackendConnectionProvider>
         </QuoteModalProvider>
       </body>
     </html>
